@@ -3,11 +3,12 @@ import React, { useState } from "react";
 function Counter() {
   const [count, setCount] = useState(0);
 
-  const plus = (index) => {
-    setCount(index + 1);
+  const plus = () => {
+    // setter은 index를 반환해줌과 동시에 set한다.
+    setCount(index => index + 1);
   };
-  const minus = (index) => {
-    setCount(index - 1);
+  const minus = () => {
+    setCount(index => index - 1);
   };
 
   return (
@@ -16,14 +17,14 @@ function Counter() {
       <h2>{count}</h2>
       <button
         onClick={() => {
-          plus(count);
+          plus();
         }}
       >
         Plus
       </button>
       <button
         onClick={() => {
-          minus(count);
+          minus();
         }}
       >
         Minus
@@ -33,3 +34,12 @@ function Counter() {
 }
 
 export default Counter;
+
+
+
+// 화살표 함수
+// const ~~ = () =>
+// this가 내부를 가르키며
+
+// function은
+// 클래스를 가르킨다
