@@ -1,6 +1,6 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useMemo, useCallback } from "react";
 
-const ListContainer = ({ element, active, onRemove, onEdited }) => {
+const ListContainer = React.memo(({ element, active, onRemove, onEdited }) => {
   const { id, nickname, realname, isActive } = element;
   const initialState = {
     id: id,
@@ -54,7 +54,7 @@ const ListContainer = ({ element, active, onRemove, onEdited }) => {
       <button onClick={() => onRemove(id)}>삭제</button>
     </div>
   );
-};
+});
 
 function InputBox() {
   const nicknameInput = useRef();
@@ -94,20 +94,24 @@ function InputBox() {
     setText(newUser);
   };
 
-  const onRemove = (id) => {
-    setResult(userList.filter((e) => e.id !== id));
-  };
+  const onRemove = useCallback(
+    (id) => {
+      setResult(userList.filter((e) => e.id !== id));
+    },
+    [userList]
+  );
 
-  const active = (id) => {
-    setResult(
+  const active = useCallback((id) => {
+    setResult((userList) =>
       userList.map((e) => (e.id === id ? { ...e, isActive: !e.isActive } : e))
     );
-  };
-  const onEdited = (editedElement) => {
-    setResult(
+  }, []);
+
+  const onEdited = useCallback((editedElement) => {
+    setResult((userList) =>
       userList.map((e) => (e.id === editedElement.id ? editedElement : e))
     );
-  };
+  }, []);
 
   const onKeyPressed = (e) => {
     if (e.key === "Enter") {
@@ -141,15 +145,24 @@ function InputBox() {
         Get Focus
       </button>
       <button onClick={submit}>Submit</button>
-      {userList.map((e, index) => (
-        <ListContainer
-          element={e}
-          active={active}
-          onRemove={onRemove}
-          onEdited={onEdited}
-          key={e.id}
-        ></ListContainer>
-      ))}
+      {userList.map((e, index) => {
+        return (
+          <ListContainer
+            element={e}
+            active={active}
+            onRemove={onRemove}
+            onEdited={onEdited}
+            key={e.id}
+          ></ListContainer>
+        );
+      })}
+      <h4>
+        등록수 :
+        {useMemo(() => {
+          console.log("갱신");
+          return userList.length;
+        }, [userList.length])}
+      </h4>
     </div>
   );
 }
