@@ -5,10 +5,10 @@ function Counter() {
 
   const plus = () => {
     // setter은 index를 반환해줌과 동시에 set한다.
-    setCount(index => index + 1);
+    setCount((index) => index + 1);
   };
   const minus = () => {
-    setCount(index => index - 1);
+    setCount((index) => index - 1);
   };
 
   return (
@@ -34,8 +34,6 @@ function Counter() {
 }
 
 export default Counter;
-
-
 
 // 화살표 함수
 // const ~~ = () =>
