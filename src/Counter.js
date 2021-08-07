@@ -1,30 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useReducer} from "react";
+
+
+function myReducer(state, action) {
+  switch (action.type) {
+    case 'PLUS':
+      return state + 1;
+    case 'MINUS':
+      return state - 1;
+    default:
+      return state;
+  }
+}
+
 
 function Counter() {
-  const [count, setCount] = useState(0);
-
-  const plus = () => {
-    // setter은 index를 반환해줌과 동시에 set한다.
-    setCount((index) => index + 1);
-  };
-  const minus = () => {
-    setCount((index) => index - 1);
-  };
+  const [count, dispatch] = useReducer(myReducer, 0);
 
   return (
     <div>
       <h1>hello, this is counter!</h1>
       <h2>{count}</h2>
+      
       <button
         onClick={() => {
-          plus();
+          dispatch({ 'type': 'PLUS' });
         }}
       >
         Plus
       </button>
       <button
         onClick={() => {
-          minus();
+          dispatch({ 'type': 'MINUS' });
         }}
       >
         Minus
