@@ -1,5 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
+import RestAPI from "./RestAPI.js";
+import Opction from "./Opaction.js";
 import Counter from "./Counter.js";
 import InputBox from "./inputSample.js";
 import React, { useState } from "react";
@@ -27,12 +29,20 @@ function App() {
         <button onClick={moveToPractice} name="InputBox">
           InputBox
         </button>
+        <button onClick={moveToPractice} name="Opction">
+          Opction
+        </button>
+        <button onClick={moveToPractice} name="RestAPI">
+          RestAPI
+        </button>
         {mode === "Counter" ? (
           <Counter />
         ) : mode === "InputBox" ? (
           <InputBox />
+        ) : mode === "Opction" ? (
+          <Opction />
         ) : (
-          <div></div>
+          <RestAPI />
         )}
       </header>
     </div>
